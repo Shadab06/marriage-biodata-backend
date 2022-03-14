@@ -15,8 +15,20 @@ import biodataRouters from "./routers/biodata.router.js";
 app.use("/api", userRouters);
 app.use("/api", biodataRouters);
 
+app.use("/", (req, res) => {
+    res.send("Server is up and running")
+})
+
 const PORT = process.env.SERVER_PORT || 2001;
 
-mongoose.connect(process.env.MONGODB_CONNECTION_URL, { useNewUrlParser: true })
-    .then(() => app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`)))
-    .catch((error) => console.log("error: ", error));
+mongoose.connect("mongodb://localhost:27017", { useNewUrlParser: true }, (error) => {
+    if (error) {
+        console.log("Error is: " + error)
+    } else {
+        console.log("Mongodb connected.")
+    }
+})
+
+app.listen(PORT, () => {
+    console.log(`Server running on port: ${PORT}`);
+})
