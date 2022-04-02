@@ -31,7 +31,7 @@ const biodataSchema = new mongoose.Schema(
         },
         age: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         height: {
@@ -59,9 +59,34 @@ const biodataSchema = new mongoose.Schema(
             required: false,
             trim: true
         },
+        hobbies: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        timeOfBirth: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        placeOfBirth: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        mangal: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        kuldevak: {
+            type: String,
+            required: false,
+            trim: true
+        },
         education: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         occupation: {
@@ -76,7 +101,7 @@ const biodataSchema = new mongoose.Schema(
         },
         fatherName: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         fatherOccupation: {
@@ -109,10 +134,10 @@ const biodataSchema = new mongoose.Schema(
         },
         address: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
-        district: {
+        city: {
             type: String,
             required: false,
             trim: true
@@ -132,7 +157,7 @@ const biodataSchema = new mongoose.Schema(
             required: false,
             trim: true
         },
-        familyImage: {
+        otherImages: {
             type: String,
             required: false,
             trim: true
@@ -142,7 +167,7 @@ const biodataSchema = new mongoose.Schema(
             required: false,
             trim: true
         },
-        familyImageWeb: {
+        otherImagesWeb: {
             type: String,
             required: false,
             trim: true

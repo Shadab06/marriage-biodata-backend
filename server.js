@@ -21,7 +21,10 @@ app.use("/", (req, res) => {
 
 const PORT = process.env.SERVER_PORT || 2001;
 
-mongoose.connect("mongodb://localhost:27017", { useNewUrlParser: true }, (error) => {
+mongoose.connect(
+    "mongodb://localhost:27017"
+    // process.env.MONGODB_CONNECTION_URL
+    , { useNewUrlParser: true }, (error) => {
     if (error) {
         console.log("Error is: " + error)
     } else {
