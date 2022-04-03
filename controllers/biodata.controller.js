@@ -36,39 +36,6 @@ export const create = async (req, res) => {
     otherImages,
   } = req.body;
 
-  console.log("data", user_id,
-  name,
-  religion,
-  caste,
-  dob,
-  age,
-  height,
-  bloodGroup,
-  complexion,
-  mobile,
-  email,
-  hobbies,
-  timeOfBirth,
-  placeOfBirth,
-  mangal,
-  kuldevak,
-  education,
-  occupation,
-  income,
-  fatherName,
-  fatherOccupation,
-  motherName,
-  motherOccupation,
-  siblings,
-  brother,
-  sister,
-  address,
-  city,
-  pincode,
-  state,
-  profileImage,
-  otherImages,);
-
   let profileImageWeb, otherImagesWeb;
   try {
 
