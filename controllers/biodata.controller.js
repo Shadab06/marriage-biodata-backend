@@ -14,6 +14,7 @@ export const create = async (req, res) => {
     mobile,
     email,
     hobbies,
+    expectations,
     timeOfBirth,
     placeOfBirth,
     mangal,
@@ -38,7 +39,6 @@ export const create = async (req, res) => {
 
   let profileImageWeb, otherImagesWeb;
   try {
-
     if (profileImage) {
       profileImageWeb = "data:image/jpeg;base64," + profileImage;
     }
@@ -59,6 +59,7 @@ export const create = async (req, res) => {
       mobile,
       email,
       hobbies,
+      expectations,
       timeOfBirth,
       placeOfBirth,
       mangal,
@@ -122,7 +123,7 @@ export const update = async (req, res) => {
       profileImageWeb = "data:image/jpeg;base64," + newData.profileImage;
 
     if (newData.otherImages)
-      otherImagesWeb = "data:image/jpeg;base64," + newData.familyImage;
+      otherImagesWeb = "data:image/jpeg;base64," + newData.otherImages;
 
     let dataToUpdate = { ...newData, profileImageWeb, otherImagesWeb };
 
