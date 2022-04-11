@@ -3,6 +3,7 @@ import Biodata from "../models/biodata.js";
 export const create = async (req, res) => {
   const {
     user_id,
+    manual_id,
     name,
     religion,
     caste,
@@ -48,6 +49,7 @@ export const create = async (req, res) => {
 
     const newData = await Biodata.create({
       user_id,
+      manual_id,
       name,
       religion,
       caste,
@@ -85,7 +87,7 @@ export const create = async (req, res) => {
     });
 
     let userDetail = {
-      id: newData._id,
+      id: newData.manual_id,
     };
     return res.status(201).json(userDetail);
   } catch (error) {
@@ -103,10 +105,11 @@ export const get = async (req, res) => {
   }
 };
 
-export const getById = async (req, res) => {
-  const { id } = req.params;
+export const getByManualId = async (req, res) => {
   try {
-    const singleData = await Biodata.findById(id);
+    const singleData = await Biodata.findOne({
+      manual_id: req.params.manual_id,
+    });
     res.status(200).send(singleData);
   } catch (error) {
     console.log("error: ", error);

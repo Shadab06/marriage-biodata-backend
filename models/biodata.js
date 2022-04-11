@@ -8,6 +8,11 @@ const biodataSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  manual_id: {
+    type: String,
+    required: true,
+    trim: true
+  },
   name: {
     type: String,
     required: true,
