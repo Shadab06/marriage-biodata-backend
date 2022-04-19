@@ -63,6 +63,11 @@ const biodataSchema = new mongoose.Schema({
     required: false,
     trim: true,
   },
+  aboutUs: {
+    type: String,
+    required: false,
+    trim: true,
+  },
   hobbies: {
     type: String,
     required: false,
