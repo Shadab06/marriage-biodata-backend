@@ -139,22 +139,15 @@ export const getOne = async (req, res) => {
 export const update = async (req, res) => {
   const { id } = req.params;
   const newData = req.body;
-  let profileImageWeb, otherImagesWeb, purchaseDate, validity;
+  let purchaseDate, validity;
   if (newData.purchaseId) {
     purchaseDate = new Date();
     validity = new Date(purchaseDate.getTime() + 2592000000).toUTCString();
   }
   try {
-    if (newData.profileImage)
-      profileImageWeb = "data:image/jpeg;base64," + newData.profileImage;
-
-    if (newData.otherImages)
-      otherImagesWeb = "data:image/jpeg;base64," + newData.otherImages;
 
     let dataToUpdate = {
       ...newData,
-      profileImageWeb,
-      otherImagesWeb,
       purchaseDate,
       validity,
     };
