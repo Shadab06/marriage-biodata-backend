@@ -40,7 +40,6 @@ export const create = async (req, res) => {
     validity,
     profileImage,
     otherImages,
-    created_at,
   } = req.body;
 
   let profileImageWeb, otherImagesWeb;
@@ -91,11 +90,11 @@ export const create = async (req, res) => {
       validity,
       profileImage,
       otherImages,
-      created_at,
     });
 
     let userDetail = {
-      id: newData.manual_id,
+      manual_id: newData.manual_id,
+      id: newData._Id
     };
     return res.status(201).json(userDetail);
   } catch (error) {
@@ -125,13 +124,25 @@ export const getByManualId = async (req, res) => {
   }
 };
 
+export const getOne = async (req, res) => {
+  const { user_id } = req.params;
+  console.log(user_id);
+  try {
+    const singleData = await Biodata.findOne({ user_id });
+    res.status(200).send(singleData);
+  } catch (error) {
+    console.log("error: ", error);
+    res.status(422).send(error);
+  }
+};
+
 export const update = async (req, res) => {
   const { id } = req.params;
   const newData = req.body;
   let profileImageWeb, otherImagesWeb, purchaseDate, validity;
   if (newData.purchaseId) {
     purchaseDate = new Date();
-    validity = new Date(purchaseDate.getTime() + 2592000000).toUTCString()
+    validity = new Date(purchaseDate.getTime() + 2592000000).toUTCString();
   }
   try {
     if (newData.profileImage)
@@ -145,7 +156,7 @@ export const update = async (req, res) => {
       profileImageWeb,
       otherImagesWeb,
       purchaseDate,
-      validity
+      validity,
     };
 
     const updatedData = await Biodata.findByIdAndUpdate(id, dataToUpdate, {
