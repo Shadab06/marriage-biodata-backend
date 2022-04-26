@@ -21,7 +21,7 @@ export const signin = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email })
 
-        if (!existingUser) return res.status(404).json({ message: "User not found shdhkjghsd" })
+        if (!existingUser) return res.status(404).json({ message: "User not found" })
         if (existingUser) {
             if (existingUser.authenticate(password)) {
                 // const token = jwt.sign({ id: existingUser._Id }, process.env.JWT_SECRET, { expiresIn: '1h' });

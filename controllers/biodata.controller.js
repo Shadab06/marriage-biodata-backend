@@ -42,15 +42,7 @@ export const create = async (req, res) => {
     otherImages,
   } = req.body;
 
-  let profileImageWeb, otherImagesWeb;
   try {
-    if (profileImage) {
-      profileImageWeb = "data:image/jpeg;base64," + profileImage;
-    }
-    if (otherImages) {
-      otherImagesWeb = "data:image/jpeg;base64," + otherImages;
-    }
-
     const newData = await Biodata.create({
       user_id,
       manual_id,
@@ -94,7 +86,7 @@ export const create = async (req, res) => {
 
     let userDetail = {
       manual_id: newData.manual_id,
-      id: newData._Id
+      id: newData._Id,
     };
     return res.status(201).json(userDetail);
   } catch (error) {
@@ -117,7 +109,8 @@ export const getByManualId = async (req, res) => {
     const singleData = await Biodata.findOne({
       manual_id: req.params.manual_id,
     });
-    res.status(200).send(singleData);
+    res
+      .status(200).json(singleData);
   } catch (error) {
     console.log("error: ", error);
     res.status(422).send(error);
@@ -126,10 +119,9 @@ export const getByManualId = async (req, res) => {
 
 export const getOne = async (req, res) => {
   const { user_id } = req.params;
-  console.log(user_id);
   try {
     const singleData = await Biodata.findOne({ user_id });
-    res.status(200).send(singleData);
+    return res.status(200).json(singleData);
   } catch (error) {
     console.log("error: ", error);
     res.status(422).send(error);
@@ -145,7 +137,6 @@ export const update = async (req, res) => {
     validity = new Date(purchaseDate.getTime() + 2592000000).toUTCString();
   }
   try {
-
     let dataToUpdate = {
       ...newData,
       purchaseDate,
