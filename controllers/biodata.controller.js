@@ -43,6 +43,9 @@ export const create = async (req, res) => {
   } = req.body;
 
   try {
+    let purchaseDate = new Date();
+    let validity = new Date(purchaseDate.getTime() + 86400000).toUTCString();
+
     const newData = await Biodata.create({
       user_id,
       manual_id,
@@ -109,8 +112,7 @@ export const getByManualId = async (req, res) => {
     const singleData = await Biodata.findOne({
       manual_id: req.params.manual_id,
     });
-    res
-      .status(200).json(singleData);
+    res.status(200).json(singleData);
   } catch (error) {
     console.log("error: ", error);
     res.status(422).send(error);
