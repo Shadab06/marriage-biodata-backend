@@ -1,4 +1,5 @@
 import Biodata from "../models/biodata.js";
+import moment from "moment";
 
 export const create = async (req, res) => {
   const {
@@ -35,16 +36,19 @@ export const create = async (req, res) => {
     city,
     pincode,
     state,
-    purchaseId,
-    purchaseDate,
+    purchase_id,
+    purchase_date,
     validity,
+    reg_date,
     profileImage,
     otherImages,
   } = req.body;
 
   try {
-    let purchaseDate = new Date();
-    let validity = new Date(purchaseDate.getTime() + 86400000).toUTCString();
+    let purchase = new Date();
+    let purchase_date = moment(new Date()).format("DD/MM/YYYY");
+    let makeValDate = new Date(purchase.getTime() + 86400000);
+    let validity = moment(makeValDate).format("DD/MM/YYYY");
 
     const newData = await Biodata.create({
       user_id,
@@ -80,8 +84,9 @@ export const create = async (req, res) => {
       city,
       pincode,
       state,
-      purchaseId,
-      purchaseDate,
+      reg_date,
+      purchase_id,
+      purchase_date,
       validity,
       profileImage,
       otherImages,
@@ -133,19 +138,9 @@ export const getOne = async (req, res) => {
 export const update = async (req, res) => {
   const { id } = req.params;
   const newData = req.body;
-  let purchaseDate, validity;
-  if (newData.purchaseId) {
-    purchaseDate = new Date();
-    validity = new Date(purchaseDate.getTime() + 2592000000).toUTCString();
-  }
   try {
-    let dataToUpdate = {
-      ...newData,
-      purchaseDate,
-      validity,
-    };
 
-    const updatedData = await Biodata.findByIdAndUpdate(id, dataToUpdate, {
+    const updatedData = await Biodata.findByIdAndUpdate(id, newData, {
       new: true,
     });
 

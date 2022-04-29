@@ -167,17 +167,22 @@ const biodataSchema = new mongoose.Schema(
       required: false,
       trim: true,
     },
-    purchaseId: {
+    purchase_id: {
       type: String,
       required: false,
       trim: true,
     },
-    purchaseDate: {
-      type: Date,
+    reg_date: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    purchase_date: {
+      type: String,
       required: false,
     },
     validity: {
-      type: Date,
+      type: String,
       required: false,
     },
     profileImage: {
