@@ -40,6 +40,7 @@ export const create = async (req, res) => {
     purchase_date,
     validity,
     reg_date,
+    flag,
     profileImage,
     otherImages,
   } = req.body;
@@ -88,6 +89,7 @@ export const create = async (req, res) => {
       purchase_id,
       purchase_date,
       validity,
+      flag,
       profileImage,
       otherImages,
     });
@@ -139,7 +141,6 @@ export const update = async (req, res) => {
   const { id } = req.params;
   const newData = req.body;
   try {
-
     const updatedData = await Biodata.findByIdAndUpdate(id, newData, {
       new: true,
     });
@@ -147,6 +148,7 @@ export const update = async (req, res) => {
     res.status(202).json(updatedData);
   } catch (error) {
     res.status(422).send(error);
+    console.log(error);
   }
 };
 

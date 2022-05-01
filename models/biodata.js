@@ -185,6 +185,11 @@ const biodataSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    flag: {
+      type: Number,
+      default: 0,
+      required: false
+    },
     profileImage: {
       type: String,
       required: false,
