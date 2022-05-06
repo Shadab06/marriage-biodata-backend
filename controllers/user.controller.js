@@ -9,7 +9,15 @@ export const signup = async (req, res) => {
         if (existingUser) return res.status(409).json({ message: "User already exists." })
 
         const result = await User.create({ name, email, mobile, password })
-        res.status(201).json(result)
+
+        let userDetail = {
+            id: result._id,
+            name: result.name,
+            email: result.email,
+            mobile: result.mobile
+        }
+
+        res.status(201).json(userDetail)
     } catch (error) {
         res.status(422).json({ error: error.message })
     }
@@ -28,12 +36,14 @@ export const signin = async (req, res) => {
                 let userDetail = {
                     id: existingUser._id,
                     name: existingUser.name,
-                    email: existingUser.email
+                    email: existingUser.email,
+                    mobile: existingUser.mobile
                 }
                 return res.status(200).json(userDetail);
             } else return res.status(406).json({ message: "Incorrect credentials" })
         }
     } catch (error) {
+        console.log(error);
         res.status(422).json({ message: error.message });
     }
 }
