@@ -1,5 +1,5 @@
 import Biodata from "../models/biodata.js";
-import moment from "moment";
+import fs from "fs";
 
 export const create = async (req, res) => {
   const {
@@ -41,15 +41,47 @@ export const create = async (req, res) => {
     validity,
     reg_date,
     flag,
-    profileImage,
-    otherImages,
+    profileImageBytes,
+    otherImagesBytes,
   } = req.body;
 
   try {
-    let purchase = new Date();
-    let purchase_date = moment(new Date()).format("DD/MM/YYYY");
-    let makeValDate = new Date(purchase.getTime() + 86400000);
-    let validity = moment(makeValDate).format("DD/MM/YYYY");
+    // let purchase = new Date();
+    // let purchase_date = moment(new Date()).format("DD/MM/YYYY");
+    // let makeValDate = new Date(purchase.getTime() + 86400000);
+    // let validity = moment(makeValDate).format("DD/MM/YYYY");
+
+    let profileImage, otherImages;
+
+    if (profileImageBytes) {
+      profileImage = Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
+
+      fs.writeFile(
+        "files/" + profileImage,
+        profileImageBytes,
+        "base64",
+        (error) => {
+          if (error) {
+            console.log("data", error);
+          }
+        }
+      );
+    }
+
+    if (otherImagesBytes) {
+      otherImages = Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
+
+      fs.writeFile(
+        "files/" + otherImages,
+        otherImagesBytes,
+        "base64",
+        (error) => {
+          if (error) {
+            console.log("data", error);
+          }
+        }
+      );
+    }
 
     const newData = await Biodata.create({
       user_id,
