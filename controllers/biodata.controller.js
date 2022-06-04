@@ -1,5 +1,6 @@
 import Biodata from "../models/biodata.js";
 import fs from "fs";
+import moment from "moment"
 
 export const create = async (req, res) => {
   const {
@@ -37,8 +38,6 @@ export const create = async (req, res) => {
     pincode,
     state,
     purchase_id,
-    purchase_date,
-    validity,
     reg_date,
     flag,
     profileImageBytes,
@@ -46,10 +45,10 @@ export const create = async (req, res) => {
   } = req.body;
 
   try {
-    // let purchase = new Date();
-    // let purchase_date = moment(new Date()).format("DD/MM/YYYY");
-    // let makeValDate = new Date(purchase.getTime() + 86400000);
-    // let validity = moment(makeValDate).format("DD/MM/YYYY");
+    let purchase = new Date();
+    let purchase_date = moment(new Date()).format("DD/MM/YYYY");
+    let makeValDate = new Date(purchase.getTime() + 3600000);
+    let validity = moment(makeValDate).format("DD/MM/YYYY");
 
     let profileImage, otherImages;
 

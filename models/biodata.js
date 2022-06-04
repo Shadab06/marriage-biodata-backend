@@ -183,7 +183,7 @@ const biodataSchema = new mongoose.Schema(
     },
     validity: {
       type: String,
-      required: false,
+      // required: false,
     },
     flag: {
       type: Number,
