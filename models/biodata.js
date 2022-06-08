@@ -183,7 +183,6 @@ const biodataSchema = new mongoose.Schema(
     },
     validity: {
       type: String,
-      // required: false,
     },
     flag: {
       type: Number,
@@ -196,16 +195,6 @@ const biodataSchema = new mongoose.Schema(
       trim: true,
     },
     otherImages: {
-      type: String,
-      required: false,
-      trim: true,
-    },
-    profileImageWeb: {
-      type: String,
-      required: false,
-      trim: true,
-    },
-    otherImagesWeb: {
       type: String,
       required: false,
       trim: true,

@@ -1,6 +1,6 @@
 import Biodata from "../models/biodata.js";
 import fs from "fs";
-import moment from "moment"
+import moment from "moment";
 
 export const create = async (req, res) => {
   const {
@@ -53,7 +53,8 @@ export const create = async (req, res) => {
     let profileImage, otherImages;
 
     if (profileImageBytes) {
-      profileImage = Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
+      profileImage =
+        Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
 
       fs.writeFile(
         "files/" + profileImage,
@@ -68,7 +69,8 @@ export const create = async (req, res) => {
     }
 
     if (otherImagesBytes) {
-      otherImages = Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
+      otherImages =
+        Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
 
       fs.writeFile(
         "files/" + otherImages,
@@ -186,7 +188,19 @@ export const update = async (req, res) => {
 export const deleteData = async (req, res) => {
   const { id } = req.params;
   try {
-    await Biodata.findByIdAndRemove(id);
+    const deletedData = await Biodata.findOneAndRemove(id);
+
+    try {
+      fs.unlinkSync("files/" + deletedData?.profileImage);
+    } catch (error) {
+      console.log("Profile image error: ", error);
+    }
+
+    try {
+      fs.unlinkSync("files/" + deletedData?.otherImages);
+    } catch (error) {
+      console.log("Other images error: ", error);
+    }
 
     res.status(200).send({ message: "Data deleted successfully" });
   } catch (error) {
