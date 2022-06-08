@@ -173,8 +173,45 @@ export const getOne = async (req, res) => {
 export const update = async (req, res) => {
   const { id } = req.params;
   const newData = req.body;
+  let dataToUpdate = { newData };
   try {
-    const updatedData = await Biodata.findByIdAndUpdate(id, newData, {
+    let profileImage, otherImages;
+
+    if (newData?.profileImageBytes) {
+      profileImage =
+        Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
+
+      fs.writeFile(
+        "files/" + profileImage,
+        newData.profileImageBytes,
+        "base64",
+        (error) => {
+          if (error) {
+            console.log("data", error);
+          }
+        }
+      );
+      dataToUpdate = { ...dataToUpdate, profileImage };
+    }
+
+    if (newData?.otherImagesBytes) {
+      otherImages =
+        Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
+
+      fs.writeFile(
+        "files/" + otherImages,
+        newData.otherImagesBytes,
+        "base64",
+        (error) => {
+          if (error) {
+            console.log("data", error);
+          }
+        }
+      );
+      dataToUpdate = { ...dataToUpdate, otherImages };
+    }
+
+    const updatedData = await Biodata.findByIdAndUpdate(id, dataToUpdate, {
       new: true,
     });
 
@@ -188,7 +225,8 @@ export const update = async (req, res) => {
 export const deleteData = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedData = await Biodata.findOneAndRemove(id);
+    const deletedData = await Biodata.findOneAndRemove({ _id: id });
+    // const deletedData = await Biodata.findOneAndRemove(id);
 
     try {
       fs.unlinkSync("files/" + deletedData?.profileImage);
