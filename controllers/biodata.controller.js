@@ -179,17 +179,19 @@ export const update = async (req, res) => {
   let newData = req.body;
   try {
     let prevData = await Biodata.findById(id);
-    if (prevData?.profileImage && newData?.profileImageBytes) {
+    if (prevData?.profileImage && newData?.profileImageBytes?.length > 100) {
       try {
         fs.unlinkSync("files/" + prevData.profileImage);
+        console.log("unlink profileImage");
       } catch (error) {
         console.log("Profile image update error: ", error);
       }
     }
 
-    if (prevData?.otherImages && newData.otherImagesBytes) {
+    if (prevData?.otherImages && newData.otherImagesBytes?.length > 100) {
       try {
         fs.unlinkSync("files/" + prevData.otherImages);
+        console("unlink otherImages");
       } catch (error) {
         console.log("Other images update error: ", error);
       }
@@ -197,7 +199,7 @@ export const update = async (req, res) => {
 
     let profileImage, otherImages;
 
-    if (newData.profileImageBytes) {
+    if (newData?.profileImageBytes?.length > 100) {
       profileImage =
         Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
 
@@ -214,7 +216,7 @@ export const update = async (req, res) => {
       newData = { ...newData, profileImage };
     }
 
-    if (newData.otherImagesBytes) {
+    if (newData.otherImagesBytes?.length > 100) {
       otherImages =
         Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
 
