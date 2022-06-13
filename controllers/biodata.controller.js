@@ -55,33 +55,11 @@ export const create = async (req, res) => {
     if (profileImageBytes) {
       profileImage =
         Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
-
-      fs.writeFile(
-        "files/" + profileImage,
-        profileImageBytes,
-        "base64",
-        (error) => {
-          if (error) {
-            console.log("data", error);
-          }
-        }
-      );
     }
 
     if (otherImagesBytes) {
       otherImages =
         Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
-
-      fs.writeFile(
-        "files/" + otherImages,
-        otherImagesBytes,
-        "base64",
-        (error) => {
-          if (error) {
-            console.log("data", error);
-          }
-        }
-      );
     }
 
     const newData = await Biodata.create({
@@ -129,8 +107,34 @@ export const create = async (req, res) => {
 
     let userDetail = {
       manual_id: newData.manual_id,
-      id: newData._Id,
+      id: newData._id,
     };
+
+    if (profileImage) {
+      fs.writeFile(
+        "files/" + profileImage,
+        profileImageBytes,
+        "base64",
+        (error) => {
+          if (error) {
+            console.log("data", error);
+          }
+        }
+      );
+    }
+
+    if (otherImages) {
+      fs.writeFile(
+        "files/" + otherImages,
+        otherImagesBytes,
+        "base64",
+        (error) => {
+          if (error) {
+            console.log("data", error);
+          }
+        }
+      );
+    }
     return res.status(201).json(userDetail);
   } catch (error) {
     console.log("error: ", error);
@@ -172,12 +176,28 @@ export const getOne = async (req, res) => {
 
 export const update = async (req, res) => {
   const { id } = req.params;
-  const newData = req.body;
-  let dataToUpdate = { newData };
+  let newData = req.body;
   try {
+    let prevData = await Biodata.findById(id);
+    if (prevData?.profileImage) {
+      try {
+        fs.unlinkSync("files/" + prevData.profileImage);
+      } catch (error) {
+        console.log("Profile image update error: ", error);
+      }
+    }
+
+    if (prevData?.otherImages) {
+      try {
+        fs.unlinkSync("files/" + prevData.otherImages);
+      } catch (error) {
+        console.log("Other images update error: ", error);
+      }
+    }
+
     let profileImage, otherImages;
 
-    if (newData?.profileImageBytes) {
+    if (newData.profileImageBytes) {
       profileImage =
         Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
 
@@ -191,10 +211,10 @@ export const update = async (req, res) => {
           }
         }
       );
-      dataToUpdate = { ...dataToUpdate, profileImage };
+      newData = { ...newData, profileImage };
     }
 
-    if (newData?.otherImagesBytes) {
+    if (newData.otherImagesBytes) {
       otherImages =
         Math.round(Math.random() * 1000).toString() + "d" + Date.now() + ".jpg";
 
@@ -208,13 +228,12 @@ export const update = async (req, res) => {
           }
         }
       );
-      dataToUpdate = { ...dataToUpdate, otherImages };
+      newData = { ...newData, otherImages };
     }
 
-    const updatedData = await Biodata.findByIdAndUpdate(id, dataToUpdate, {
+    const updatedData = await Biodata.findByIdAndUpdate(id, newData, {
       new: true,
     });
-
     res.status(202).json(updatedData);
   } catch (error) {
     res.status(422).send(error);
@@ -231,13 +250,13 @@ export const deleteData = async (req, res) => {
     try {
       fs.unlinkSync("files/" + deletedData?.profileImage);
     } catch (error) {
-      console.log("Profile image error: ", error);
+      console.log("Profile image delete error: ", error);
     }
 
     try {
       fs.unlinkSync("files/" + deletedData?.otherImages);
     } catch (error) {
-      console.log("Other images error: ", error);
+      console.log("Other images delete error: ", error);
     }
 
     res.status(200).send({ message: "Data deleted successfully" });
