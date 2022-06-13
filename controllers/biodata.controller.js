@@ -179,7 +179,7 @@ export const update = async (req, res) => {
   let newData = req.body;
   try {
     let prevData = await Biodata.findById(id);
-    if (prevData?.profileImage) {
+    if (prevData?.profileImage && newData?.profileImageBytes) {
       try {
         fs.unlinkSync("files/" + prevData.profileImage);
       } catch (error) {
@@ -187,7 +187,7 @@ export const update = async (req, res) => {
       }
     }
 
-    if (prevData?.otherImages) {
+    if (prevData?.otherImages && newData.otherImagesBytes) {
       try {
         fs.unlinkSync("files/" + prevData.otherImages);
       } catch (error) {
