@@ -27,6 +27,10 @@ export const create = async (req, res) => {
     occupation,
     income,
     fatherName,
+    grandFather,
+    grandMother,
+    maternalua,
+    paternalua,
     fatherOccupation,
     motherName,
     motherOccupation,
@@ -86,6 +90,10 @@ export const create = async (req, res) => {
       occupation,
       income,
       fatherName,
+      grandFather,
+      grandMother,
+      maternalua,
+      paternalua,
       fatherOccupation,
       motherName,
       motherOccupation,
@@ -247,7 +255,6 @@ export const deleteData = async (req, res) => {
   const { id } = req.params;
   try {
     const deletedData = await Biodata.findOneAndRemove({ _id: id });
-    // const deletedData = await Biodata.findOneAndRemove(id);
 
     try {
       fs.unlinkSync("files/" + deletedData?.profileImage);

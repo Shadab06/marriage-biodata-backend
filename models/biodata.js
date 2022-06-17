@@ -119,6 +119,22 @@ const biodataSchema = new mongoose.Schema(
       required: false,
       trim: true,
     },
+    grandFather: {
+      type: String,
+      trim: true
+    },
+    grandMother: {
+      type: String,
+      trim: true
+    },
+    maternalua: {
+      type: String,
+      trim: true
+    },
+    paternalua: {
+      type: String,
+      trim: true
+    },
     fatherOccupation: {
       type: String,
       required: false,
